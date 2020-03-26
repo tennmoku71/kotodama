@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 
 kotodama_dic = {}
-file = open("kotodama/kotodama_dic.csv",encoding="utf-8",mode = "r")
+file = open("kotodama_dic.csv",encoding="utf-8",mode = "r")
 for ele in file:
     ele_list = ele.strip().split(",") 
     key = ele_list[0]
