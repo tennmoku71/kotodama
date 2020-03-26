@@ -10,36 +10,55 @@ for ele in file:
 file.close()
 
 class nihongo:
-    hiragana = [
-        ["あ","い","う","え","お"],
-        ["か","き","く","け","こ"],
-        ["が","ぎ","ぐ","げ","ご"],
-        ["さ","し","す","せ","そ"],
-        ["ざ","じ","ず","ぜ","ぞ"],
-        ["た","ち","つ","て","と"],
-        ["だ","ぢ","づ","で","ど"],
-        ["な","に","ぬ","ね","の"],
-        ["は","ひ","ふ","へ","ほ"],
-        ["ば","び","ぶ","べ","ぼ"],
-        ["ぱ","ぴ","ぷ","ぺ","ぽ"],
-        ["ま","み","む","め","も"],
-        ["や",None,"ゆ",None,"よ"],
-        ["ら","り","る","れ","ろ"],
-        ["わ","を","ん",None,None]
-    ]
+
+    hiragana = {
+        "ア行":["あ","い","う","え","お"],
+        "カ行":["か","き","く","け","こ"],
+        "ガ行":["が","ぎ","ぐ","げ","ご"],
+        "サ行":["さ","し","す","せ","そ"],
+        "ザ行":["ざ","じ","ず","ぜ","ぞ"],
+        "タ行":["た","ち","つ","て","と"],
+        "ダ行":["だ","ぢ","づ","で","ど"],
+        "ナ行":["な","に","ぬ","ね","の"],
+        "ハ行":["は","ひ","ふ","へ","ほ"],
+        "バ行":["ば","び","ぶ","べ","ぼ"],
+        "パ行":["ぱ","ぴ","ぷ","ぺ","ぽ"],
+        "マ行":["ま","み","む","め","も"],
+        "ヤ行":["や","い","ゆ","え","よ"],
+        "ラ行":["ら","り","る","れ","ろ"],
+        "ワ行":["わ","い","う","え","お"]
+    }
+
+    # hiragana = [
+    #     ["あ","い","う","え","お"],
+    #     ["か","き","く","け","こ"],
+    #     ["が","ぎ","ぐ","げ","ご"],
+    #     ["さ","し","す","せ","そ"],
+    #     ["ざ","じ","ず","ぜ","ぞ"],
+    #     ["た","ち","つ","て","と"],
+    #     ["だ","ぢ","づ","で","ど"],
+    #     ["な","に","ぬ","ね","の"],
+    #     ["は","ひ","ふ","へ","ほ"],
+    #     ["ば","び","ぶ","べ","ぼ"],
+    #     ["ぱ","ぴ","ぷ","ぺ","ぽ"],
+    #     ["ま","み","む","め","も"],
+    #     ["や",None,"ゆ",None,"よ"],
+    #     ["ら","り","る","れ","ろ"],
+    #     ["わ","い","う","え","お"]
+    # ]
 
     def get_index(c):
         global hiragana
-        for b in range(len(nihongo.hiragana)):
-            if c in nihongo.hiragana[b]:
-                return b,nihongo.hiragana[b].index(c)
+        for boin in nihongo.hiragana:
+            if shin_index in nihongo.hiragana[boin]:
+                return boin,nihongo.hiragana[boin].index(shin_index)
 
-    def get_char(boin_index,shin_index):
-        return nihongo.hiragana[boin_index][shin_index]
+    def get_char(boin,shin_index):
+        return nihongo.hiragana[boin][shin_index]
     
     def change_shiin(c, shiin_index):
-        b,s = nihongo.get_index(c)
-        return nihongo.get_char(b,shiin_index)
+        boin,_ = nihongo.get_index(c)
+        return nihongo.get_char(boin,shiin_index)
     
 # formatList　可能　受け身　使役　過去　断定　否定　推定　様態　伝聞　例示　勧誘　打ち消し　自分の希望　他人の希望　前提確認　て　です・ます　終止　仮定　ください
 # verbType 母音動詞 子音動詞マ行 子音動詞ワ行 子音動詞カ行 子音動詞ラ行 子音動詞サ行 子音動詞タ行 子音動詞ガ行 子音動詞カ行促音便形 カ変動詞来 サ変動詞
@@ -61,14 +80,20 @@ class phrase:
     
 phrases = []
 # 直前がサ変動詞なら”れ”を追加する
-phrases.append(phrase(word="可能",mizen="",renyo="",syusi="れる",rentai="れる",katei="れれ",meirei="れろ",before_word_type="サ変動詞",conjugation="未然可能"))
+#phrases.append(phrase(word="可能",mizen="",renyo="",syusi="る",rentai="る",katei="れ",meirei="ろ",before_word_type="サ変動詞",conjugation="未然可能"))
+phrases.append(phrase(word="可能",mizen="",renyo="",syusi="れる",rentai="れる",katei="れれ",meirei="れろ",before_word_type="母音動詞",conjugation="未然可能"))
 phrases.append(phrase(word="可能",mizen="",renyo="",syusi="る",rentai="る",katei="れ",meirei="ろ",before_word_type=None,conjugation="未然可能"))
 
-phrases.append(phrase(word="使役",mizen="せ",renyo="せ",syusi="せる",rentai="せる",katei="せれ",meirei="せろ",before_word_type=None,conjugation="未然使役"))
+phrases.append(phrase(word="使役",mizen="せ",renyo="せ",syusi="せる",rentai="せる",katei="せれ",meirei="せろ",before_word_type="子音動詞",conjugation="未然使役"))
+phrases.append(phrase(word="使役",mizen="せ",renyo="せ",syusi="せる",rentai="せる",katei="せれ",meirei="せろ",before_word_type="サ変動詞",conjugation="未然使役"))
+phrases.append(phrase(word="使役",mizen="させ",renyo="させ",syusi="させる",rentai="させる",katei="させれ",meirei="させろ",before_word_type=None,conjugation="未然使役"))
 
+phrases.append(phrase(word="受け身",mizen="れ",renyo="れ",syusi="れる",rentai="れる",katei="れれ",meirei="れろ",before_word_type="子音動詞",conjugation="未然使役"))
+phrases.append(phrase(word="受け身",mizen="れ",renyo="れ",syusi="れる",rentai="れる",katei="れれ",meirei="れろ",before_word_type="サ変動詞",conjugation="未然使役"))
 phrases.append(phrase(word="受け身",mizen="られ",renyo="られ",syusi="られる",rentai="られる",katei="られれ",meirei="られろ",before_word_type=None,conjugation="未然使役"))
 
 #動詞の直後しか許されない
+phrases.append(phrase(word="過去",mizen="だろ",renyo="",syusi="だ",rentai="だ",katei="だら",meirei="",before_word_type="子音動詞ガ行",conjugation="連用過去"))
 phrases.append(phrase(word="過去",mizen="だろ",renyo="",syusi="だ",rentai="だ",katei="だら",meirei="",before_word_type="子音動詞ナ行",conjugation="連用過去"))
 phrases.append(phrase(word="過去",mizen="だろ",renyo="",syusi="だ",rentai="だ",katei="だら",meirei="",before_word_type="子音動詞バ行",conjugation="連用過去"))
 phrases.append(phrase(word="過去",mizen="だろ",renyo="",syusi="だ",rentai="だ",katei="だら",meirei="",before_word_type="子音動詞マ行",conjugation="連用過去"))
@@ -91,9 +116,12 @@ phrases.append(phrase(word="推定",mizen="",renyo="らしく",syusi="らしい"
 #子音動詞の場合は未然意思、それ以外は未然否定naiになる
 #子音動詞の場合はyouではなくuになる
 #ますの場合は「かきませんか」になる
-phrases.append(phrase(word="勧誘",mizen="",renyo="",syusi="う",rentai="う",katei="",meirei="",before_word_type=None,conjugation="未然意思"))
+#推量・意思ともいう
+phrases.append(phrase(word="勧誘",mizen="",renyo="",syusi="う",rentai="う",katei="",meirei="",before_word_type="子音動詞",conjugation="未然意思"))
+phrases.append(phrase(word="勧誘",mizen="",renyo="",syusi="う",rentai="う",katei="",meirei="",before_word_type="形容詞",conjugation="未然意思"))
+phrases.append(phrase(word="勧誘",mizen="",renyo="",syusi="う",rentai="う",katei="",meirei="",before_word_type="形容動詞",conjugation="未然意思"))
 phrases.append(phrase(word="勧誘",mizen="",renyo="",syusi="よう",rentai="よう",katei="",meirei="",before_word_type=None,conjugation="未然否定nai"))
-phrases.append(phrase(word="勧誘",mizen="",renyo="",syusi="んか",rentai="んか",katei="",meirei="",before_word_type=None,conjugation="未然否定nai"))
+#phrases.append(phrase(word="勧誘",mizen="",renyo="",syusi="んか",rentai="んか",katei="",meirei="",before_word_type=None,conjugation="未然否定nai"))
 
 # #子音動詞の場合は終止、それ以外は未然否定naiになる
 # #動詞の直後しか許されない
@@ -102,9 +130,9 @@ phrases.append(phrase(word="勧誘",mizen="",renyo="",syusi="んか",rentai="ん
 
 phrases.append(phrase(word="断定",mizen="たろ",renyo="で",syusi="だ",rentai="な",katei="なら",meirei="",before_word_type=None,conjugation="終止"))
 
-phrases.append(phrase(word="自分の希望",mizen="たかろ",renyo="たく",syusi="たい",rentai="たい",katei="たけれ",meirei="",before_word_type=None,conjugation="未然使役"))
+phrases.append(phrase(word="自分の希望",mizen="たかろ",renyo="たく",syusi="たい",rentai="たい",katei="たけれ",meirei="",before_word_type=None,conjugation="連用希望"))
 
-phrases.append(phrase(word="他人の希望",mizen="たがら",renyo="たがり",syusi="たがる",rentai="たがる",katei="たがれ",meirei="",before_word_type=None,conjugation="未然使役"))
+phrases.append(phrase(word="他人の希望",mizen="たがら",renyo="たがり",syusi="たがる",rentai="たがる",katei="たがれ",meirei="",before_word_type=None,conjugation="連用希望"))
 
 #動詞の直後なら"ます"、そうでなければ"です"　打ち消し、断定
 #伝聞：かくそうです、様態：かくそうです、例示：かくようです、推定：かくらしいです、自分の希望：かきたいです、否定：かかないです
@@ -142,6 +170,23 @@ NG_dict = {
 }
 
 
+# gyou_hash = {
+#     "ア行":["あ","い","う","え","お"],
+#     "カ行":["か","き","く","け","こ"],
+#     "ガ行":["が","ぎ","ぐ","げ","ご"],
+#     "サ行":["さ","し","す","せ","そ"],
+#     "ザ行":["ざ","じ","ず","ぜ","ぞ"],
+#     "タ行":["た","ち","つ","て","と"],
+#     "ダ行":["だ","ぢ","づ","で","ど"],
+#     "ナ行":["な","に","ぬ","ね","の"],
+#     "ハ行":["は","ひ","ふ","へ","ほ"],
+#     "バ行":["ば","び","ぶ","べ","ぼ"],
+#     "パ行":["ぱ","ぴ","ぷ","ぺ","ぽ"],
+#     "マ行":["ま","み","む","め","も"],
+#     "ヤ行":["や","い","ゆ","え","よ"],
+#     "ラ行":["ら","り","る","れ","ろ"],
+#     "ワ行":["わ","い","う","え","お"]
+# }
 # verbType 母音動詞 子音動詞マ行 子音動詞ワ行 子音動詞カ行 子音動詞ラ行 子音動詞サ行 子音動詞タ行 子音動詞ガ行 子音動詞カ行促音便形 カ変動詞来 サ変動詞
 # conjugationForm 未然否定nai 未然否定zu 未然使役 未然意思 未然可能 連用希望 連用過去 終止 連体 仮定 連用音便
 def transformConjugationForm(verb, verbType, conjugationForm):
@@ -156,17 +201,29 @@ def transformConjugationForm(verb, verbType, conjugationForm):
             transformed = verb[0:-1]
 
     elif verbType.startswith("子音動詞"):
+
+        # 活用する母音を取得する
+        boin = None
+        if verbType[4:6] in nihongo.hiragana:
+            # 母音が活用形辞書から取得できる場合はそれを採用
+            boin = verbType[4:6]
+        else:
+            #ない場合は終了系の最後のひらがなから推測する
+            boin,_ = nihongo.get_index(verb[-1])
+
         if conjugationForm.startswith("未然否定"):
             if verb=="有る" or verb=="ある":
                 transformed = ""
             else:
-                transformed = verb[0:-1] + nihongo.change_shiin(verb[-1],0);
+                transformed = verb[0:-1] + nihongo.get_char(boin,0)
         elif conjugationForm == "未然意思":
-            transformed = verb[0:-1] + nihongo.change_shiin(verb[-1],4);
+            transformed = verb[0:-1] + nihongo.get_char(boin,4)
         elif conjugationForm == "未然可能":
-            transformed = verb[0:-1] + nihongo.change_shiin(verb[-1],3);
+            transformed = verb[0:-1] + nihongo.get_char(boin,3)
+        elif conjugationForm == "未然使役":
+            transformed = verb[0:-1] + nihongo.get_char(boin,0)    
         elif conjugationForm == "連用希望":
-            transformed = verb[0:-1] + nihongo.change_shiin(verb[-1],1);
+            transformed = verb[0:-1] + nihongo.get_char(boin,1)
         elif conjugationForm == "連用過去":
             if verbType.endswith("カ行促音便形"):
                 transformed = verb[0:-1] + "っ"
@@ -192,7 +249,7 @@ def transformConjugationForm(verb, verbType, conjugationForm):
                 transformed = verb[0:-1]  + "う"                
 
         elif conjugationForm == "仮定":
-            transformed = verb[0:-1] + nihongo.change_shiin(verb[-1],3)
+            transformed = verb[0:-1] + nihongo.get_char(boin,3)   
 
     elif verbType.startswith("サ変動詞"):
         transformed = verb.replace("する","")
@@ -360,9 +417,9 @@ def transformVerb(verb,format_set):
 
     header = verb.replace(target_verb,"")
     if len(phrase_list)!=0:
-        transformed = header + transformConjugationForm(verb,katuyou1,phrase_list[0].conjugation)
+        transformed = header + transformConjugationForm(target_verb,katuyou1,phrase_list[0].conjugation)
     else:
-        transformed = header + verb
+        transformed = header + target_verb
 
     for i in range(len(phrase_list)):
         if not i+1 ==len(phrase_list):
