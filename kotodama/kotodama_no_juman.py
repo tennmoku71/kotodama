@@ -32,8 +32,8 @@ class nihongo:
     def get_index(c):
         global hiragana
         for boin in nihongo.hiragana:
-            if shin_index in nihongo.hiragana[boin]:
-                return boin,nihongo.hiragana[boin].index(shin_index)
+            if c in nihongo.hiragana[boin]:
+                return boin,nihongo.hiragana[boin].index(c)
 
     def get_char(boin,shin_index):
         return nihongo.hiragana[boin][shin_index]
@@ -42,121 +42,6 @@ class nihongo:
         boin,_ = nihongo.get_index(c)
         return nihongo.get_char(boin,shiin_index)
     
-# formatList　可能　受け身　使役　過去　断定　否定　推定　様態　伝聞　例示　勧誘　打ち消し　自分の希望　他人の希望　前提確認　て　です・ます　終止　仮定　ください
-# verbType 母音動詞 子音動詞マ行 子音動詞ワ行 子音動詞カ行 子音動詞ラ行 子音動詞サ行 子音動詞タ行 子音動詞ガ行 子音動詞カ行促音便形 カ変動詞来 サ変動詞
-# conjugationForm 未然否定nai 未然否定zu 未然使役 未然意思 連用希望 連用過去 終止 連体 仮定 連用音便
-class phrase:
-
-    def __init__(self,word, mizen, renyo, syusi, rentai, katei, meirei,before_word_type,conjugation):
-        self.word = word
-        self.mizen = mizen
-        self.renyo = renyo
-        self.syusi = syusi
-        self.rentai = rentai
-        self.katei = katei
-        self.meirei = meirei
-        self.before_word_type = before_word_type
-        self.conjugation = conjugation
-        
-    
-    
-phrases = []
-# 直前がサ変動詞なら”れ”を追加する
-#phrases.append(phrase(word="可能",mizen="",renyo="",syusi="る",rentai="る",katei="れ",meirei="ろ",before_word_type="サ変動詞",conjugation="未然可能"))
-# http://www.gengoj.com/_UPLOAD/post/179.pdf
-phrases.append(phrase(word="可能",mizen="",renyo="",syusi="られる",rentai="られる",katei="られれ",meirei="られろ",before_word_type="母音動詞",conjugation="未然可能"))
-phrases.append(phrase(word="可能",mizen="",renyo="",syusi="れる",rentai="れる",katei="れれ",meirei="れろ",before_word_type="子音動詞",conjugation="未然可能"))
-phrases.append(phrase(word="可能",mizen="",renyo="",syusi="る",rentai="る",katei="れ",meirei="ろ",before_word_type=None,conjugation="未然可能"))
-
-phrases.append(phrase(word="使役",mizen="せ",renyo="せ",syusi="せる",rentai="せる",katei="せれ",meirei="せろ",before_word_type="子音動詞",conjugation="未然使役"))
-phrases.append(phrase(word="使役",mizen="せ",renyo="せ",syusi="せる",rentai="せる",katei="せれ",meirei="せろ",before_word_type="サ変動詞",conjugation="未然使役"))
-phrases.append(phrase(word="使役",mizen="させ",renyo="させ",syusi="させる",rentai="させる",katei="させれ",meirei="させろ",before_word_type=None,conjugation="未然使役"))
-
-phrases.append(phrase(word="受け身",mizen="れ",renyo="れ",syusi="れる",rentai="れる",katei="れれ",meirei="れろ",before_word_type="子音動詞",conjugation="未然使役"))
-phrases.append(phrase(word="受け身",mizen="れ",renyo="れ",syusi="れる",rentai="れる",katei="れれ",meirei="れろ",before_word_type="サ変動詞",conjugation="未然使役"))
-phrases.append(phrase(word="受け身",mizen="られ",renyo="られ",syusi="られる",rentai="られる",katei="られれ",meirei="られろ",before_word_type=None,conjugation="未然使役"))
-
-#動詞の直後しか許されない
-phrases.append(phrase(word="過去",mizen="だろ",renyo="",syusi="だ",rentai="だ",katei="だら",meirei="",before_word_type="子音動詞ガ行",conjugation="連用過去"))
-phrases.append(phrase(word="過去",mizen="だろ",renyo="",syusi="だ",rentai="だ",katei="だら",meirei="",before_word_type="子音動詞ナ行",conjugation="連用過去"))
-phrases.append(phrase(word="過去",mizen="だろ",renyo="",syusi="だ",rentai="だ",katei="だら",meirei="",before_word_type="子音動詞バ行",conjugation="連用過去"))
-phrases.append(phrase(word="過去",mizen="だろ",renyo="",syusi="だ",rentai="だ",katei="だら",meirei="",before_word_type="子音動詞マ行",conjugation="連用過去"))
-phrases.append(phrase(word="過去",mizen="たろ",renyo="",syusi="た",rentai="た",katei="たら",meirei="",before_word_type=None,conjugation="連用過去"))
-
-#命令形だと終止形+"な"
-#"ます"だと、未然形+"ん"
-phrases.append(phrase(word="否定",mizen="ん",renyo="ん",syusi="ん",rentai="ん",katei="ん",meirei="ん",before_word_type="ます",conjugation="未然"))
-phrases.append(phrase(word="否定",mizen="なかろ",renyo="なく",syusi="ない",rentai="ない",katei="なけれ",meirei=None,before_word_type=None,conjugation="未然否定nai"))
-phrases.append(phrase(word="否定",mizen=None,renyo=None,syusi=None,rentai=None,katei=None,meirei="な",before_word_type=None,conjugation="終止"))
-
-phrases.append(phrase(word="伝聞",mizen="",renyo="そうで",syusi="そうだ",rentai="",katei="",meirei="",before_word_type=None,conjugation="終止"))
-
-phrases.append(phrase(word="様態",mizen="そうだろ",renyo="そうで",syusi="そうだ",rentai="そうな",katei="そうなら",meirei="",before_word_type=None,conjugation="連体"))
-
-phrases.append(phrase(word="例示",mizen="ようだろ",renyo="ようで",syusi="ようだ",rentai="ような",katei="ようなら",meirei="",before_word_type=None,conjugation="連体"))
-
-phrases.append(phrase(word="推定",mizen="",renyo="らしく",syusi="らしい",rentai="らしい",katei="らしけれ",meirei="",before_word_type=None,conjugation="終止"))
-
-#子音動詞の場合は未然意思、それ以外は未然否定naiになる
-#子音動詞の場合はyouではなくuになる
-#ますの場合は「かきませんか」になる
-#推量・意思ともいう
-phrases.append(phrase(word="勧誘",mizen="",renyo="",syusi="う",rentai="う",katei="",meirei="",before_word_type="子音動詞",conjugation="未然意思"))
-phrases.append(phrase(word="勧誘",mizen="",renyo="",syusi="う",rentai="う",katei="",meirei="",before_word_type="形容詞",conjugation="未然意思"))
-phrases.append(phrase(word="勧誘",mizen="",renyo="",syusi="う",rentai="う",katei="",meirei="",before_word_type="形容動詞",conjugation="未然意思"))
-phrases.append(phrase(word="勧誘",mizen="",renyo="",syusi="よう",rentai="よう",katei="",meirei="",before_word_type=None,conjugation="未然否定nai"))
-#phrases.append(phrase(word="勧誘",mizen="",renyo="",syusi="んか",rentai="んか",katei="",meirei="",before_word_type=None,conjugation="未然否定nai"))
-
-# #子音動詞の場合は終止、それ以外は未然否定naiになる
-# #動詞の直後しか許されない
-# phrases.append(phrase(word="打ち消し",mizen="",renyo="",syusi="まい",rentai="まい",katei="",meirei="",before_word_type="子音動詞",conjugation="終止"))
-# phrases.append(phrase(word="打ち消し",mizen="",renyo="",syusi="まい",rentai="まい",katei="",meirei="",before_word_type=None,conjugation="未然否定nai"))
-
-phrases.append(phrase(word="断定",mizen="たろ",renyo="で",syusi="だ",rentai="な",katei="なら",meirei="",before_word_type=None,conjugation="終止"))
-
-phrases.append(phrase(word="自分の希望",mizen="たかろ",renyo="たく",syusi="たい",rentai="たい",katei="たけれ",meirei="",before_word_type=None,conjugation="連用希望"))
-
-phrases.append(phrase(word="他人の希望",mizen="たがら",renyo="たがり",syusi="たがる",rentai="たがる",katei="たがれ",meirei="",before_word_type=None,conjugation="連用希望"))
-
-#動詞の直後なら"ます"、そうでなければ"です"　打ち消し、断定
-#伝聞：かくそうです、様態：かくそうです、例示：かくようです、推定：かくらしいです、自分の希望：かきたいです、否定：かかないです
-phrases.append(phrase(word="です",mizen="でしょ",renyo="でし",syusi="です",rentai="です",katei="",meirei="",before_word_type="伝聞・様態・例示・推定・自分の希望・否定・過去",conjugation="終止"))
-# 形容詞ならそのままつける
-phrases.append(phrase(word="です",mizen="でしょ",renyo="でし",syusi="です",rentai="です",katei="",meirei="",before_word_type="形容詞",conjugation="終止"))
-# 判定詞なら「だ」を「です」へと活用する
-phrases.append(phrase(word="です",mizen="でしょ",renyo="でし",syusi="です",rentai="です",katei="",meirei="",before_word_type="判定詞",conjugation="終止"))
-
-#なし：かきます、否定：かきません、過去：かきました、可能：かけれます、使役：かかせます、受け身：かかられます、勧誘：かきませんか、他人の希望：かきたがります
-phrases.append(phrase(word="ます",mizen="ませ",renyo="まし",syusi="ます",rentai="ます",katei="ますれ",meirei="ませ",before_word_type=None,conjugation="連用希望"))
-
-#直前の単語が"て"または"で"なら追加しない
-phrases.append(phrase(word="て",mizen="で",renyo="で",syusi="で",rentai="で",katei="で",meirei="",before_word_type="子音動詞ガ行",conjugation="連用過去"))
-phrases.append(phrase(word="て",mizen="で",renyo="で",syusi="で",rentai="で",katei="で",meirei="",before_word_type="子音動詞ナ行",conjugation="連用過去"))
-phrases.append(phrase(word="て",mizen="で",renyo="で",syusi="で",rentai="で",katei="で",meirei="",before_word_type="子音動詞バ行",conjugation="連用過去"))
-phrases.append(phrase(word="て",mizen="で",renyo="で",syusi="で",rentai="で",katei="で",meirei="",before_word_type="子音動詞マ行",conjugation="連用過去"))
-phrases.append(phrase(word="て",mizen="て",renyo="て",syusi="て",rentai="て",katei="て",meirei="て",before_word_type=None,conjugation="連用過去"))
-
-#みなければ、みないなら
-phrases.append(phrase(word="仮定nara",mizen="なら",renyo="なら",syusi="なら",rentai="なら",katei="なら",meirei="なら",before_word_type=None,conjugation="終止"))
-phrases.append(phrase(word="仮定ba",mizen="ば",renyo="ば",syusi="ば",rentai="ば",katei="ば",meirei="ば",before_word_type=None,conjugation="仮定"))
-
-#直前の単語に"テ"を加える
-phrases.append(phrase(word="ください",mizen="ください",renyo="ください",syusi="ください",rentai="ください",katei="ください",meirei="ください",before_word_type=None,conjugation="終止"))
-
-phrase_order = ["使役", "可能", "受け身", "ます", "過去", "否定", "自分の希望", "他人の希望", "推定", "伝聞", "様態", "例示", "勧誘", "です", "て", "仮定nara", "仮定ba"]
-
-NG_dict = {
-    "可能":["受け身","勧誘","自分の希望","他人の希望"],
-    "仮定":["伝聞","勧誘","です・ます","て"],
-    "て":["勧誘","です・ます"],
-    "です・ます":["勧誘"],
-    "勧誘":["過去","否定","伝聞","様態","例示","推定"],
-    "自分の希望":["過去","他人の希望"],
-    "他人の希望":["過去"],
-    "様態":["例示","伝聞"],
-    "例示":["伝聞"]
-}
-
 # verbType 母音動詞 子音動詞マ行 子音動詞ワ行 子音動詞カ行 子音動詞ラ行 子音動詞サ行 子音動詞タ行 子音動詞ガ行 子音動詞カ行促音便形 カ変動詞来 サ変動詞
 # conjugationForm 未然否定nai 未然否定zu 未然使役 未然意思 未然可能 連用希望 連用過去 終止 連体 仮定 連用音便
 def transformConjugationForm(verb, verbType, conjugationForm):
@@ -317,6 +202,123 @@ def transformConjugationForm(verb, verbType, conjugationForm):
             transformed+="けれ"
     return transformed
 
+# formatList　可能　受け身　使役　過去　断定　否定　推定　様態　伝聞　例示　勧誘　打ち消し　自分の希望　他人の希望　前提確認　て　です・ます　終止　仮定　ください
+# verbType 母音動詞 子音動詞マ行 子音動詞ワ行 子音動詞カ行 子音動詞ラ行 子音動詞サ行 子音動詞タ行 子音動詞ガ行 子音動詞カ行促音便形 カ変動詞来 サ変動詞
+# conjugationForm 未然否定nai 未然否定zu 未然使役 未然意思 連用希望 連用過去 終止 連体 仮定 連用音便
+class phrase:
+
+    def __init__(self,word, mizen, renyo, syusi, rentai, katei, meirei,before_word_type,conjugation):
+        self.word = word
+        self.mizen = mizen
+        self.renyo = renyo
+        self.syusi = syusi
+        self.rentai = rentai
+        self.katei = katei
+        self.meirei = meirei
+        self.before_word_type = before_word_type
+        self.conjugation = conjugation
+        
+    
+    
+phrases = []
+# 直前がサ変動詞なら”れ”を追加する
+#phrases.append(phrase(word="可能",mizen="",renyo="",syusi="る",rentai="る",katei="れ",meirei="ろ",before_word_type="サ変動詞",conjugation="未然可能"))
+# http://www.gengoj.com/_UPLOAD/post/179.pdf
+phrases.append(phrase(word="可能",mizen="",renyo="",syusi="られる",rentai="られる",katei="られれ",meirei="られろ",before_word_type="母音動詞",conjugation="未然可能"))
+phrases.append(phrase(word="可能",mizen="",renyo="",syusi="れる",rentai="れる",katei="れれ",meirei="れろ",before_word_type="子音動詞",conjugation="未然可能"))
+phrases.append(phrase(word="可能",mizen="",renyo="",syusi="る",rentai="る",katei="れ",meirei="ろ",before_word_type="サ変動詞",conjugation="未然可能"))
+phrases.append(phrase(word="可能",mizen="",renyo="",syusi="られる",rentai="られる",katei="られれ",meirei="られろ",before_word_type=None,conjugation="未然可能"))
+
+phrases.append(phrase(word="使役",mizen="せ",renyo="せ",syusi="せる",rentai="せる",katei="せれ",meirei="せろ",before_word_type="子音動詞",conjugation="未然使役"))
+phrases.append(phrase(word="使役",mizen="せ",renyo="せ",syusi="せる",rentai="せる",katei="せれ",meirei="せろ",before_word_type="サ変動詞",conjugation="未然使役"))
+phrases.append(phrase(word="使役",mizen="させ",renyo="させ",syusi="させる",rentai="させる",katei="させれ",meirei="させろ",before_word_type=None,conjugation="未然使役"))
+
+phrases.append(phrase(word="受け身",mizen="れ",renyo="れ",syusi="れる",rentai="れる",katei="れれ",meirei="れろ",before_word_type="子音動詞",conjugation="未然使役"))
+phrases.append(phrase(word="受け身",mizen="れ",renyo="れ",syusi="れる",rentai="れる",katei="れれ",meirei="れろ",before_word_type="サ変動詞",conjugation="未然使役"))
+phrases.append(phrase(word="受け身",mizen="られ",renyo="られ",syusi="られる",rentai="られる",katei="られれ",meirei="られろ",before_word_type=None,conjugation="未然使役"))
+
+#動詞の直後しか許されない
+phrases.append(phrase(word="過去",mizen="だろ",renyo="",syusi="だ",rentai="だ",katei="だら",meirei="",before_word_type="子音動詞ガ行",conjugation="連用過去"))
+phrases.append(phrase(word="過去",mizen="だろ",renyo="",syusi="だ",rentai="だ",katei="だら",meirei="",before_word_type="子音動詞ナ行",conjugation="連用過去"))
+phrases.append(phrase(word="過去",mizen="だろ",renyo="",syusi="だ",rentai="だ",katei="だら",meirei="",before_word_type="子音動詞バ行",conjugation="連用過去"))
+phrases.append(phrase(word="過去",mizen="だろ",renyo="",syusi="だ",rentai="だ",katei="だら",meirei="",before_word_type="子音動詞マ行",conjugation="連用過去"))
+phrases.append(phrase(word="過去",mizen="たろ",renyo="",syusi="た",rentai="た",katei="たら",meirei="",before_word_type=None,conjugation="連用過去"))
+
+#命令形だと終止形+"な"
+#"ます"だと、未然形+"ん"
+# 「たい」+「ない」のときだけ、ないを助動詞ではなく、用言として扱う
+phrases.append(phrase(word="否定",mizen="ん",renyo="ん",syusi="ん",rentai="ん",katei="ん",meirei="ん",before_word_type="ます",conjugation="未然"))
+phrases.append(phrase(word="否定",mizen="なかろ",renyo="なく",syusi="ない",rentai="ない",katei="なけれ",meirei=None,before_word_type="自分の希望",conjugation="連用希望"))
+phrases.append(phrase(word="否定",mizen="なかろ",renyo="なく",syusi="ない",rentai="ない",katei="なけれ",meirei=None,before_word_type=None,conjugation="未然否定nai"))
+phrases.append(phrase(word="否定",mizen=None,renyo=None,syusi=None,rentai=None,katei=None,meirei="な",before_word_type=None,conjugation="終止"))
+
+phrases.append(phrase(word="伝聞",mizen="",renyo="そうで",syusi="そうだ",rentai="",katei="",meirei="",before_word_type=None,conjugation="終止"))
+
+phrases.append(phrase(word="様態",mizen="そうだろ",renyo="そうで",syusi="そうだ",rentai="そうな",katei="そうなら",meirei="",before_word_type=None,conjugation="連体"))
+
+phrases.append(phrase(word="例示",mizen="ようだろ",renyo="ようで",syusi="ようだ",rentai="ような",katei="ようなら",meirei="",before_word_type=None,conjugation="連体"))
+
+phrases.append(phrase(word="推定",mizen="",renyo="らしく",syusi="らしい",rentai="らしい",katei="らしけれ",meirei="",before_word_type=None,conjugation="終止"))
+
+#子音動詞の場合は未然意思、それ以外は未然否定naiになる
+#子音動詞の場合はyouではなくuになる
+#ますの場合は「かきませんか」になる
+#推量・意思ともいう
+phrases.append(phrase(word="勧誘",mizen="",renyo="",syusi="う",rentai="う",katei="",meirei="",before_word_type="子音動詞",conjugation="未然意思"))
+phrases.append(phrase(word="勧誘",mizen="",renyo="",syusi="う",rentai="う",katei="",meirei="",before_word_type="形容詞",conjugation="未然意思"))
+phrases.append(phrase(word="勧誘",mizen="",renyo="",syusi="う",rentai="う",katei="",meirei="",before_word_type="形容動詞",conjugation="未然意思"))
+phrases.append(phrase(word="勧誘",mizen="",renyo="",syusi="う",rentai="う",katei="",meirei="",before_word_type="否定・自分の希望・断定・伝聞・様態・例示・です・ます",conjugation="未然意思"))
+phrases.append(phrase(word="勧誘",mizen="",renyo="",syusi="よう",rentai="よう",katei="",meirei="",before_word_type=None,conjugation="未然否定nai"))
+#phrases.append(phrase(word="勧誘",mizen="",renyo="",syusi="んか",rentai="んか",katei="",meirei="",before_word_type=None,conjugation="未然否定nai"))
+
+# #子音動詞の場合は終止、それ以外は未然否定naiになる
+# #動詞の直後しか許されない
+# phrases.append(phrase(word="打ち消し",mizen="",renyo="",syusi="まい",rentai="まい",katei="",meirei="",before_word_type="子音動詞",conjugation="終止"))
+# phrases.append(phrase(word="打ち消し",mizen="",renyo="",syusi="まい",rentai="まい",katei="",meirei="",before_word_type=None,conjugation="未然否定nai"))
+
+phrases.append(phrase(word="断定",mizen="たろ",renyo="で",syusi="だ",rentai="な",katei="なら",meirei="",before_word_type=None,conjugation="終止"))
+
+phrases.append(phrase(word="自分の希望",mizen="たかろ",renyo="たく",syusi="たい",rentai="たい",katei="たけれ",meirei="",before_word_type=None,conjugation="連用希望"))
+
+phrases.append(phrase(word="他人の希望",mizen="たがら",renyo="たがり",syusi="たがる",rentai="たがる",katei="たがれ",meirei="",before_word_type=None,conjugation="連用希望"))
+
+#動詞の直後なら"ます"、そうでなければ"です"　打ち消し、断定
+#伝聞：かくそうです、様態：かくそうです、例示：かくようです、推定：かくらしいです、自分の希望：かきたいです、否定：かかないです
+phrases.append(phrase(word="です",mizen="でしょ",renyo="でし",syusi="です",rentai="です",katei="",meirei="",before_word_type="伝聞・様態・例示・推定・自分の希望・否定・過去",conjugation="終止"))
+# 形容詞ならそのままつける
+phrases.append(phrase(word="です",mizen="でしょ",renyo="でし",syusi="です",rentai="です",katei="",meirei="",before_word_type="形容詞",conjugation="終止"))
+# 判定詞なら「だ」を「です」へと活用する
+phrases.append(phrase(word="です",mizen="でしょ",renyo="でし",syusi="です",rentai="です",katei="",meirei="",before_word_type="判定詞",conjugation="終止"))
+
+#なし：かきます、否定：かきません、過去：かきました、可能：かけれます、使役：かかせます、受け身：かかられます、勧誘：かきませんか、他人の希望：かきたがります
+phrases.append(phrase(word="ます",mizen="ませ",renyo="まし",syusi="ます",rentai="ます",katei="ますれ",meirei="ませ",before_word_type=None,conjugation="連用希望"))
+
+#直前の単語が"て"または"で"なら追加しない
+phrases.append(phrase(word="て",mizen="で",renyo="で",syusi="で",rentai="で",katei="で",meirei="",before_word_type="子音動詞ガ行",conjugation="連用過去"))
+phrases.append(phrase(word="て",mizen="で",renyo="で",syusi="で",rentai="で",katei="で",meirei="",before_word_type="子音動詞ナ行",conjugation="連用過去"))
+phrases.append(phrase(word="て",mizen="で",renyo="で",syusi="で",rentai="で",katei="で",meirei="",before_word_type="子音動詞バ行",conjugation="連用過去"))
+phrases.append(phrase(word="て",mizen="で",renyo="で",syusi="で",rentai="で",katei="で",meirei="",before_word_type="子音動詞マ行",conjugation="連用過去"))
+phrases.append(phrase(word="て",mizen="て",renyo="て",syusi="て",rentai="て",katei="て",meirei="て",before_word_type=None,conjugation="連用過去"))
+
+#みなければ、みないなら
+phrases.append(phrase(word="仮定nara",mizen="なら",renyo="なら",syusi="なら",rentai="なら",katei="なら",meirei="なら",before_word_type=None,conjugation="終止"))
+phrases.append(phrase(word="仮定ba",mizen="ば",renyo="ば",syusi="ば",rentai="ば",katei="ば",meirei="ば",before_word_type=None,conjugation="仮定"))
+
+#直前の単語に"テ"を加える
+phrases.append(phrase(word="ください",mizen="ください",renyo="ください",syusi="ください",rentai="ください",katei="ください",meirei="ください",before_word_type=None,conjugation="終止"))
+
+phrase_order = ["使役", "可能", "受け身", "自分の希望", "他人の希望", "ます", "否定", "過去", "推定", "伝聞", "様態", "例示", "勧誘", "です", "て", "仮定nara", "仮定ba"]
+
+NG_dict = {
+    "可能":["受け身","勧誘","自分の希望","他人の希望"],
+    "仮定":["伝聞","勧誘","です・ます","て"],
+    "勧誘":["過去","推定","伝聞"],
+    "自分の希望":["他人の希望"],
+    "様態":["例示","伝聞"],
+    "例示":["伝聞"]
+}
+
+import warnings
 def transformVerb(verb,format_set):
 
     if not verb in kotodama_dic:
@@ -329,15 +331,16 @@ def transformVerb(verb,format_set):
 
     for key in NG_dict:
         if key in format_set:
-            for ngword in NG_dict[key]:
-                if ngword in format_set:
-                    print("remove "+ngword)
-                    format_set.remove(ngword)
+            for ng_tag in NG_dict[key]:
+                if ng_tag in format_set:
+                    #print(key+"と"+ng_tag+"の組み合わせは表現できません。"+ng_tag+"を削除します")
+                    return "None"
+                    #format_set.remove(ng_tag)
 
     if "です・ます" in format_set:
         format_set.remove("です・ます")
-        desu = {"伝聞","様態","例示","推定","勧誘","自分の希望","て","仮定","否定","過去"} & format_set
-        masu = {"可能","勧誘","他人の希望","て","仮定"} & format_set
+        desu = {"伝聞","様態","例示","推定","勧誘","自分の希望","て","仮定","否定"} & format_set
+        masu = {"可能","勧誘","使役","受け身","他人の希望","て","仮定","過去"} & format_set
         if len(masu)!=0:
             format_set.add("ます")
         elif len(desu)!=0:
@@ -392,10 +395,29 @@ def transformVerb(verb,format_set):
         transformed = header + target_verb
 
     for i in range(len(phrase_list)):
-        if not i+1 ==len(phrase_list):
 
+        #特殊なルールを記述する
+        #て・でを追加するときは、直前の文字がて・でではないことを確認する
+        if phrase_list[i].word == "て" and ( transformed.endswith("て") or transformed.endswith("で")):
+            continue
+
+        #ですを後ろにつける場合、最後が「だ」ならそれを削除
+        if phrase_list[1].word == "です" and transformed.endswith("だ"):
+            transformed = transformed[:-1]
+
+        if not i+1 ==len(phrase_list):
             c = phrase_list[i+1].conjugation
-            if "未然" in c:
+
+            # 過去を追加するときは、促音便系に変換する必要があり
+            # 否定は「なくー＞なかっ」、自分の希望は「たくー＞たかっ」、他人の希望は「たがりー＞たがっ」
+            # 5段活用形の音便のように、終止形の最後の文字を取り除くといった規則性がないうえ、３つしかないため個別にルールを書く
+            if phrase_list[i+1].word in ["過去"] and  phrase_list[i].word == "否定":
+                transformed += "なかっ"
+            elif phrase_list[i+1].word in ["過去"] and  phrase_list[i].word == "自分の希望":
+                transformed += "たかっ"
+            elif phrase_list[i+1].word in ["過去","て"] and  phrase_list[i].word == "他人の希望":
+                transformed += "たがっ"
+            elif "未然" in c:
                 transformed += phrase_list[i].mizen
             elif "連用" in c:
                 transformed += phrase_list[i].renyo
@@ -407,8 +429,18 @@ def transformVerb(verb,format_set):
                 transformed += phrase_list[i].katei
             elif "命令" in c:
                 transformed += phrase_list[i].meirei
+
         else:
             transformed += phrase_list[i].syusi
+
+        # 「せう」は発音しにくいので「しょう」に変わる
+        if "せう" in transformed :
+            transformed = transformed.replace("せう","しょう")
+        # 「らよう」も発音しにくいので「ろう」に変わる
+        if "らよう" in transformed :
+            transformed = transformed.replace("らよう","ろう")
+        
+        #print("・"+phrase_list[i].word+"\t"+transformed)
 
     return transformed
 
