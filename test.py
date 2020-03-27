@@ -6,16 +6,19 @@ target_verb_hist = []
 
 output_f = open('log.csv', mode='w', encoding='utf-8')
 
+#target_verb_list = ["いる"]
+
 for verb in f:
     verb = verb.strip()
-    target_verb = kotodama_no_juman.kotodama_dic[verb][0]    
-    katuyou1 = kotodama_no_juman.kotodama_dic[verb][2]
-    print(katuyou1)
-    for i in range(len(format_all_list)):
-        for j in range(i):
-            output = target_verb+"\t"+format_all_list[i]+"\t"+format_all_list[j]+"\t"+kotodama_no_juman.transformVerb(verb,{format_all_list[i],format_all_list[j]})
-            output_f.write(output.replace("\t",",")+"\n")
-            print(output)
+    if True:#verb in target_verb_list:
+        target_verb = kotodama_no_juman.kotodama_dic[verb][0]    
+        katuyou1 = kotodama_no_juman.kotodama_dic[verb][2]
+        print(katuyou1)
+        for i in range(len(format_all_list)):
+            for j in range(i):
+                output = target_verb+"\t"+format_all_list[i]+"\t"+format_all_list[j]+"\t"+kotodama_no_juman.transformVerb(verb,{format_all_list[i],format_all_list[j]})
+                output_f.write(output.replace("\t",",")+"\n")
+                print(output)
 
 output_f.close()
 f.close()
