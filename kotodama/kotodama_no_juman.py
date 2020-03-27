@@ -128,6 +128,7 @@ def transformConjugationForm(verb, verbType, conjugationForm):
             transformed+="しろ"
 
     elif verbType.startswith("カ変動詞"):
+        transformed = verb.replace("来る","").replace("くる","")
         if conjugationForm.startswith("未然"):
             transformed+="こ"
         elif conjugationForm.startswith("連用"):
@@ -389,10 +390,13 @@ def transformVerb(verb,format_set):
                     break
 
     header = verb.replace(target_verb,"")
+    print("header "+header)
     if len(phrase_list)!=0:
         transformed = header + transformConjugationForm(target_verb,katuyou1,phrase_list[0].conjugation)
     else:
         transformed = header + target_verb
+
+    print("transformed "+transformed)
 
     for i in range(len(phrase_list)):
 
