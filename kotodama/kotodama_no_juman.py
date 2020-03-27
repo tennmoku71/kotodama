@@ -224,10 +224,10 @@ phrases = []
 # 直前がサ変動詞なら”れ”を追加する
 #phrases.append(phrase(word="可能",mizen="",renyo="",syusi="る",rentai="る",katei="れ",meirei="ろ",before_word_type="サ変動詞",conjugation="未然可能"))
 # http://www.gengoj.com/_UPLOAD/post/179.pdf
-phrases.append(phrase(word="可能",mizen="",renyo="",syusi="られる",rentai="られる",katei="られれ",meirei="られろ",before_word_type="母音動詞",conjugation="未然可能"))
-phrases.append(phrase(word="可能",mizen="",renyo="",syusi="れる",rentai="れる",katei="れれ",meirei="れろ",before_word_type="子音動詞",conjugation="未然可能"))
+phrases.append(phrase(word="可能",mizen="られ",renyo="られ",syusi="られる",rentai="られる",katei="られれ",meirei="られろ",before_word_type="母音動詞",conjugation="未然可能"))
+phrases.append(phrase(word="可能",mizen="れ",renyo="れ",syusi="れる",rentai="れる",katei="れれ",meirei="れろ",before_word_type="子音動詞",conjugation="未然可能"))
 phrases.append(phrase(word="可能",mizen="",renyo="",syusi="る",rentai="る",katei="れ",meirei="ろ",before_word_type="サ変動詞",conjugation="未然可能"))
-phrases.append(phrase(word="可能",mizen="",renyo="",syusi="られる",rentai="られる",katei="られれ",meirei="られろ",before_word_type=None,conjugation="未然可能"))
+phrases.append(phrase(word="可能",mizen="られ",renyo="られ",syusi="られる",rentai="られる",katei="られれ",meirei="られろ",before_word_type=None,conjugation="未然可能"))
 
 phrases.append(phrase(word="使役",mizen="せ",renyo="せ",syusi="せる",rentai="せる",katei="せれ",meirei="せろ",before_word_type="子音動詞",conjugation="未然使役"))
 phrases.append(phrase(word="使役",mizen="せ",renyo="せ",syusi="せる",rentai="せる",katei="せれ",meirei="せろ",before_word_type="サ変動詞",conjugation="未然使役"))
@@ -440,7 +440,7 @@ def transformVerb(verb,format_set):
         if "らよう" in transformed :
             transformed = transformed.replace("らよう","ろう")
         
-        #print("・"+phrase_list[i].word+"\t"+transformed)
+        print("・"+phrase_list[i].word+"\t"+transformed)
 
     return transformed
 
