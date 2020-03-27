@@ -239,11 +239,11 @@ phrases.append(phrase(word="受け身",mizen="れ",renyo="れ",syusi="れる",re
 phrases.append(phrase(word="受け身",mizen="られ",renyo="られ",syusi="られる",rentai="られる",katei="られれ",meirei="られろ",before_word_type=None,conjugation="未然使役"))
 
 #動詞の直後しか許されない
-phrases.append(phrase(word="過去",mizen="だろ",renyo="",syusi="だ",rentai="だ",katei="だら",meirei="",before_word_type="子音動詞ガ行",conjugation="連用過去"))
-phrases.append(phrase(word="過去",mizen="だろ",renyo="",syusi="だ",rentai="だ",katei="だら",meirei="",before_word_type="子音動詞ナ行",conjugation="連用過去"))
-phrases.append(phrase(word="過去",mizen="だろ",renyo="",syusi="だ",rentai="だ",katei="だら",meirei="",before_word_type="子音動詞バ行",conjugation="連用過去"))
-phrases.append(phrase(word="過去",mizen="だろ",renyo="",syusi="だ",rentai="だ",katei="だら",meirei="",before_word_type="子音動詞マ行",conjugation="連用過去"))
-phrases.append(phrase(word="過去",mizen="たろ",renyo="",syusi="た",rentai="た",katei="たら",meirei="",before_word_type=None,conjugation="連用過去"))
+phrases.append(phrase(word="過去",mizen="だろ",renyo="だ",syusi="だ",rentai="だ",katei="だら",meirei="",before_word_type="子音動詞ガ行",conjugation="連用過去"))
+phrases.append(phrase(word="過去",mizen="だろ",renyo="だ",syusi="だ",rentai="だ",katei="だら",meirei="",before_word_type="子音動詞ナ行",conjugation="連用過去"))
+phrases.append(phrase(word="過去",mizen="だろ",renyo="だ",syusi="だ",rentai="だ",katei="だら",meirei="",before_word_type="子音動詞バ行",conjugation="連用過去"))
+phrases.append(phrase(word="過去",mizen="だろ",renyo="だ",syusi="だ",rentai="だ",katei="だら",meirei="",before_word_type="子音動詞マ行",conjugation="連用過去"))
+phrases.append(phrase(word="過去",mizen="たろ",renyo="た",syusi="た",rentai="た",katei="たら",meirei="",before_word_type=None,conjugation="連用過去"))
 
 #命令形だと終止形+"な"
 #"ます"だと、未然形+"ん"
@@ -312,6 +312,8 @@ phrase_order = ["使役", "可能", "受け身", "自分の希望", "他人の�
 
 NG_dict = {
     "可能":["受け身","勧誘","自分の希望","他人の希望"],
+    "です・ます":["て","勧誘"],
+    "て":["勧誘"],
     "仮定":["伝聞","勧誘","です・ます","て"],
     "勧誘":["過去","推定","伝聞"],
     "自分の希望":["他人の希望"],
@@ -340,20 +342,38 @@ def transformVerb(verb,format_set):
 
     if "です・ます" in format_set:
         format_set.remove("です・ます")
-        desu = {"伝聞","様態","例示","推定","勧誘","自分の希望","て","仮定","否定"} & format_set
-        masu = {"可能","勧誘","使役","受け身","他人の希望","て","仮定","過去"} & format_set
-        if len(masu)!=0:
-            format_set.add("ます")
-        elif len(desu)!=0:
-            format_set.add("です")
-        elif hinsi=="動詞":
-            format_set.add("ます")
-        elif hinsi=="形容詞" or hinsi=="判定詞":
-            format_set.add("です")
-        elif hinsi == "接尾辞":
-            if katuyou1 == "母音動詞":
+        # desu = {"伝聞","様態","例示","推定","勧誘","自分の希望","て","仮定","否定"} & format_set
+        # masu = {"可能","勧誘","使役","受け身","他人の希望","て","仮定","過去"} & format_set
+        # if len(masu)!=0:
+        #     format_set.add("ます")
+        # elif len(desu)!=0:
+        #     format_set.add("です")
+        # elif hinsi=="動詞":
+        #     format_set.add("ます")
+        # elif hinsi=="形容詞" or hinsi=="判定詞":
+        #     format_set.add("です")
+        # elif hinsi == "接尾辞":
+        #     if katuyou1 == "母音動詞":
+        #         format_set.add("ます")
+        #     else:
+        #         format_set.add("です")
+        if len(format_set) == 0:
+            if hinsi=="動詞":
                 format_set.add("ます")
-            else:
+            elif hinsi=="形容詞" or hinsi=="判定詞":
+                format_set.add("です")
+            elif hinsi == "接尾辞":
+                if katuyou1 == "母音動詞":
+                    format_set.add("ます")
+                else:
+                    format_set.add("です")
+        else:
+            index_array = [phrase_order.index(format_value) for format_value in format_set]
+            desu = {"自分の希望", "推定", "伝聞", "様態", "例示", "勧誘"}
+            masu = {"使役", "可能", "受け身", "他人の希望", "否定", "過去"}
+            if phrase_order[max(index_array)] in masu:
+                format_set.add("ます")
+            elif phrase_order[max(index_array)] in desu:
                 format_set.add("です")
 
     if "仮定" in format_set:
@@ -390,13 +410,10 @@ def transformVerb(verb,format_set):
                     break
 
     header = verb.replace(target_verb,"")
-    print("header "+header)
     if len(phrase_list)!=0:
         transformed = header + transformConjugationForm(target_verb,katuyou1,phrase_list[0].conjugation)
     else:
         transformed = header + target_verb
-
-    print("transformed "+transformed)
 
     for i in range(len(phrase_list)):
 
@@ -406,7 +423,7 @@ def transformVerb(verb,format_set):
             continue
 
         #ですを後ろにつける場合、最後が「だ」ならそれを削除
-        if phrase_list[1].word == "です" and transformed.endswith("だ"):
+        if phrase_list[i].word == "です" and transformed.endswith("だ"):
             transformed = transformed[:-1]
 
         if not i+1 ==len(phrase_list):
@@ -421,6 +438,8 @@ def transformVerb(verb,format_set):
                 transformed += "たかっ"
             elif phrase_list[i+1].word in ["過去","て"] and  phrase_list[i].word == "他人の希望":
                 transformed += "たがっ"
+            elif phrase_list[i+1].word in ["て"] and  phrase_list[i].word == "過去":
+                transformed += "たっ"
             elif "未然" in c:
                 transformed += phrase_list[i].mizen
             elif "連用" in c:
