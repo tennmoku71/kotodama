@@ -29,24 +29,6 @@ class nihongo:
         "ワ行":["わ","い","う","え","お"]
     }
 
-    # hiragana = [
-    #     ["あ","い","う","え","お"],
-    #     ["か","き","く","け","こ"],
-    #     ["が","ぎ","ぐ","げ","ご"],
-    #     ["さ","し","す","せ","そ"],
-    #     ["ざ","じ","ず","ぜ","ぞ"],
-    #     ["た","ち","つ","て","と"],
-    #     ["だ","ぢ","づ","で","ど"],
-    #     ["な","に","ぬ","ね","の"],
-    #     ["は","ひ","ふ","へ","ほ"],
-    #     ["ば","び","ぶ","べ","ぼ"],
-    #     ["ぱ","ぴ","ぷ","ぺ","ぽ"],
-    #     ["ま","み","む","め","も"],
-    #     ["や",None,"ゆ",None,"よ"],
-    #     ["ら","り","る","れ","ろ"],
-    #     ["わ","い","う","え","お"]
-    # ]
-
     def get_index(c):
         global hiragana
         for boin in nihongo.hiragana:
@@ -81,7 +63,9 @@ class phrase:
 phrases = []
 # 直前がサ変動詞なら”れ”を追加する
 #phrases.append(phrase(word="可能",mizen="",renyo="",syusi="る",rentai="る",katei="れ",meirei="ろ",before_word_type="サ変動詞",conjugation="未然可能"))
-phrases.append(phrase(word="可能",mizen="",renyo="",syusi="れる",rentai="れる",katei="れれ",meirei="れろ",before_word_type="母音動詞",conjugation="未然可能"))
+# http://www.gengoj.com/_UPLOAD/post/179.pdf
+phrases.append(phrase(word="可能",mizen="",renyo="",syusi="られる",rentai="られる",katei="られれ",meirei="られろ",before_word_type="母音動詞",conjugation="未然可能"))
+phrases.append(phrase(word="可能",mizen="",renyo="",syusi="れる",rentai="れる",katei="れれ",meirei="れろ",before_word_type="子音動詞",conjugation="未然可能"))
 phrases.append(phrase(word="可能",mizen="",renyo="",syusi="る",rentai="る",katei="れ",meirei="ろ",before_word_type=None,conjugation="未然可能"))
 
 phrases.append(phrase(word="使役",mizen="せ",renyo="せ",syusi="せる",rentai="せる",katei="せれ",meirei="せろ",before_word_type="子音動詞",conjugation="未然使役"))
@@ -107,7 +91,7 @@ phrases.append(phrase(word="否定",mizen=None,renyo=None,syusi=None,rentai=None
 
 phrases.append(phrase(word="伝聞",mizen="",renyo="そうで",syusi="そうだ",rentai="",katei="",meirei="",before_word_type=None,conjugation="終止"))
 
-phrases.append(phrase(word="様態",mizen="そう",renyo="そう",syusi="そう",rentai="そう",katei="そう",meirei="",before_word_type=None,conjugation="連体"))
+phrases.append(phrase(word="様態",mizen="そうだろ",renyo="そうで",syusi="そうだ",rentai="そうな",katei="そうなら",meirei="",before_word_type=None,conjugation="連体"))
 
 phrases.append(phrase(word="例示",mizen="ようだろ",renyo="ようで",syusi="ようだ",rentai="ような",katei="ようなら",meirei="",before_word_type=None,conjugation="連体"))
 
@@ -146,6 +130,10 @@ phrases.append(phrase(word="です",mizen="でしょ",renyo="でし",syusi="で�
 phrases.append(phrase(word="ます",mizen="ませ",renyo="まし",syusi="ます",rentai="ます",katei="ますれ",meirei="ませ",before_word_type=None,conjugation="連用希望"))
 
 #直前の単語が"て"または"で"なら追加しない
+phrases.append(phrase(word="て",mizen="で",renyo="で",syusi="で",rentai="で",katei="で",meirei="",before_word_type="子音動詞ガ行",conjugation="連用過去"))
+phrases.append(phrase(word="て",mizen="で",renyo="で",syusi="で",rentai="で",katei="で",meirei="",before_word_type="子音動詞ナ行",conjugation="連用過去"))
+phrases.append(phrase(word="て",mizen="で",renyo="で",syusi="で",rentai="で",katei="で",meirei="",before_word_type="子音動詞バ行",conjugation="連用過去"))
+phrases.append(phrase(word="て",mizen="で",renyo="で",syusi="で",rentai="で",katei="で",meirei="",before_word_type="子音動詞マ行",conjugation="連用過去"))
 phrases.append(phrase(word="て",mizen="て",renyo="て",syusi="て",rentai="て",katei="て",meirei="て",before_word_type=None,conjugation="連用過去"))
 
 #みなければ、みないなら
@@ -169,24 +157,6 @@ NG_dict = {
     "例示":["伝聞"]
 }
 
-
-# gyou_hash = {
-#     "ア行":["あ","い","う","え","お"],
-#     "カ行":["か","き","く","け","こ"],
-#     "ガ行":["が","ぎ","ぐ","げ","ご"],
-#     "サ行":["さ","し","す","せ","そ"],
-#     "ザ行":["ざ","じ","ず","ぜ","ぞ"],
-#     "タ行":["た","ち","つ","て","と"],
-#     "ダ行":["だ","ぢ","づ","で","ど"],
-#     "ナ行":["な","に","ぬ","ね","の"],
-#     "ハ行":["は","ひ","ふ","へ","ほ"],
-#     "バ行":["ば","び","ぶ","べ","ぼ"],
-#     "パ行":["ぱ","ぴ","ぷ","ぺ","ぽ"],
-#     "マ行":["ま","み","む","め","も"],
-#     "ヤ行":["や","い","ゆ","え","よ"],
-#     "ラ行":["ら","り","る","れ","ろ"],
-#     "ワ行":["わ","い","う","え","お"]
-# }
 # verbType 母音動詞 子音動詞マ行 子音動詞ワ行 子音動詞カ行 子音動詞ラ行 子音動詞サ行 子音動詞タ行 子音動詞ガ行 子音動詞カ行促音便形 カ変動詞来 サ変動詞
 # conjugationForm 未然否定nai 未然否定zu 未然使役 未然意思 未然可能 連用希望 連用過去 終止 連体 仮定 連用音便
 def transformConjugationForm(verb, verbType, conjugationForm):
@@ -423,6 +393,7 @@ def transformVerb(verb,format_set):
 
     for i in range(len(phrase_list)):
         if not i+1 ==len(phrase_list):
+
             c = phrase_list[i+1].conjugation
             if "未然" in c:
                 transformed += phrase_list[i].mizen
