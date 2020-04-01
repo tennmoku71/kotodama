@@ -23,9 +23,8 @@ LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 THE SOFTWARE.
 """
-import os
 kotodama_dic = {}
-file = open(os.path.dirname(__file__)+"/kotodama_dic.csv",encoding="utf-8",mode = "r")
+file = open("data/kotodama_dic.csv",encoding="utf-8",mode = "r")
 for ele in file:
     ele_list = ele.strip().split(",") 
     key = ele_list[0]
