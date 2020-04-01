@@ -463,7 +463,7 @@ def transformVerb(verb,format_set):
         if "らよう" in transformed :
             transformed = transformed.replace("らよう","ろう")
         
-        print("・"+phrase_list[i].word+"\t"+transformed)
+        #print("・"+phrase_list[i].word+"\t"+transformed)
 
     return transformed
 
