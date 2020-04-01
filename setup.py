@@ -1,4 +1,10 @@
 import setuptools
+
+def _requirements():
+    return ["os"]
+
+def _test_requirements():
+    return ["os"]
  
 setuptools.setup(
     name="kotodama",
