@@ -1,4 +1,6 @@
+MANIFEST.in
 README.md
+kotodama_dic.csv
 setup.py
 kotodama/__init__.py
 kotodama/kotodama.py

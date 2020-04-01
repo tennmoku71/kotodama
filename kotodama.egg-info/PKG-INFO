@@ -1,14 +1,14 @@
 Metadata-Version: 2.1
 Name: kotodama
-Version: 1.0
+Version: 0.0.1
 Summary: 日本語の動詞を活用形に変換する
 Home-page: UNKNOWN
-Author: tennmoku71
-Author-email: tennmoku71@gmail.com
+Author: Yoshiki Ohira
+Author-email: ohira.yoshiki@irl.sys.es.osaka-u.ac.jp
 License: UNKNOWN
 Description: 日本語の動詞に対して、過去・伝聞・様態といった活用ラベルを入力し、動詞の活用形を変換するプログラムです
 Platform: UNKNOWN
-Classifier: Programming Language :: Python :: 3.6.7
+Classifier: Programming Language :: Python :: 3
 Classifier: License :: OSI Approved :: MIT License
 Classifier: Operating System :: OS Independent
 Description-Content-Type: text/markdown
