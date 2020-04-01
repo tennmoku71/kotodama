@@ -90,6 +90,11 @@ https://github.com/tennmoku71/kotodama/blob/master/kotodama_dic.csv
 ## License
 MIT License
 
+## reference
+- Hajime Morita, Daisuke Kawahara and Sadao Kurohashi: Morphological Analysis for Unsegmented Languages using Recurrent Neural Network Language Model, Proceedings of EMNLP 2015: Conference on Empirical Methods in Natural Language Processing, pp.2292-2297, (2015.9.17). pdf
+- 森田一, 黒橋 禎夫: RNN 言語モデルを用いた日本語形態素解析の実用化, 情報処理学会 第78回全国大会, 慶應義塾大学 矢上キャンパス, (2016.3.10).
+- http://assets.flips.jp/files/users/ichimai-quiz/joyo.pdf
+- https://www.kokugobunpou.com
 
 ## contact
 Name：大平義輝
