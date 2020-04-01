@@ -7,3 +7,4 @@ kotodama.egg-info/PKG-INFO
 kotodama.egg-info/SOURCES.txt
 kotodama.egg-info/dependency_links.txt
 kotodama.egg-info/top_level.txt
+kotodama/data/kotodama_dic.csv
