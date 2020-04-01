@@ -2,9 +2,9 @@ import setuptools
  
 setuptools.setup(
     name="kotodama",
-    version="1.0",
-    author="tennmoku71",
-    author_email="tennmoku71@gmail.com",
+    version="0.0.1",
+    author="Yoshiki Ohira",
+    author_email="ohira.yoshiki@irl.sys.es.osaka-u.ac.jp",
     description="日本語の動詞を活用形に変換する",
     long_description="日本語の動詞に対して、過去・伝聞・様態といった活用ラベルを入力し、動詞の活用形を変換するプログラムです",
     long_description_content_type="text/markdown",
