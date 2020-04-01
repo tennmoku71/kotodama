@@ -446,8 +446,6 @@ def transformVerb(verb,format_set):
         # 「らよう」も発音しにくいので「ろう」に変わる
         if "らよう" in transformed :
             transformed = transformed.replace("らよう","ろう")
-        
-        #print("・"+phrase_list[i].word+"\t"+transformed)
 
     return transformed
 
