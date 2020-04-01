@@ -321,7 +321,6 @@ NG_dict = {
     "例示":["伝聞"]
 }
 
-import warnings
 def transformVerb(verb,format_set):
 
     if not verb in kotodama_dic:
@@ -342,21 +341,6 @@ def transformVerb(verb,format_set):
 
     if "です・ます" in format_set:
         format_set.remove("です・ます")
-        # desu = {"伝聞","様態","例示","推定","勧誘","自分の希望","て","仮定","否定"} & format_set
-        # masu = {"可能","勧誘","使役","受け身","他人の希望","て","仮定","過去"} & format_set
-        # if len(masu)!=0:
-        #     format_set.add("ます")
-        # elif len(desu)!=0:
-        #     format_set.add("です")
-        # elif hinsi=="動詞":
-        #     format_set.add("ます")
-        # elif hinsi=="形容詞" or hinsi=="判定詞":
-        #     format_set.add("です")
-        # elif hinsi == "接尾辞":
-        #     if katuyou1 == "母音動詞":
-        #         format_set.add("ます")
-        #     else:
-        #         format_set.add("です")
         if len(format_set) == 0:
             if hinsi=="動詞":
                 format_set.add("ます")
