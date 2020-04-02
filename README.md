@@ -66,7 +66,7 @@ https://www.kokugobunpou.com
 http://assets.flips.jp/files/users/ichimai-quiz/joyo.pdf
 
 具体的な対応動詞は以下のファイルを見てください。対応動詞は随時更新していきます
-https://github.com/tennmoku71/kotodama/blob/master/kotodama_dic.csv
+https://github.com/tennmoku71/kotodama/blob/master/kotodama/data/kotodama_dic.csv
 
 --------------------------------------
 ## ユーザ辞書の追加方法
