@@ -24,6 +24,7 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 THE SOFTWARE.
 """
 import os
+import warnings
 kotodama_dic = {}
 file = open(os.path.dirname(__file__)+"/data/kotodama_dic.csv",encoding="utf-8",mode = "r")
 for ele in file:
@@ -347,8 +348,21 @@ NG_dict = {
 
 def transformVerb(verb,format_set):
 
+    if type(verb) is not str:
+        raise TypeError("transformVerbの第1引数にはstr型を入れてください。引数("+str(type(verb))+")")
+
+    if type(format_set) is list:
+        format_set = set(format_set)
+
+    if type(format_set) is not set:    
+        raise TypeError("transformVerbの第2引数にはset型を入れてください。引数("+str(type(format_set))+")")        
+
     if not verb in kotodama_dic:
         raise ValueError("辞書に定義されていない単語が入力されました。kotodama_dic.csvに「"+str(verb)+"」を追加してください")
+
+    if not format_set <= set(phrase_order):
+        warnings.warn(str(format_set - set(phrase_order))+"は対応していません", UserWarning)
+        format_set = format_set & set(phrase_order)
 
     values = kotodama_dic[verb]
     target_verb = values[0]
