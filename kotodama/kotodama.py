@@ -490,9 +490,8 @@ def transformVerb(verb,format_set):
 def joinMultipleVerb(verbs,format_set):
     result = ""
     for i,verb in enumerate(verbs):
-        mrph = verb.mrph_list()[-1]
         if i==len(verbs)-1:
-            result += transformVerb(mrph,format_set)
+            result += transformVerb(verb,format_set)
         else:
-            result += transformVerb(mrph,("て"))
+            result += transformVerb(verb,("て"))
     return result
