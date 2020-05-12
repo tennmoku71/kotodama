@@ -36,6 +36,14 @@ class TestKotodama(unittest.TestCase):
         with self.assertWarns(UserWarning):
         	self.assertEqual(kotodama.transformVerb("過ごす",{"ふがふが"}), '過ごす')
 
+    def test_algorithm(self):
+
+        # verb
+        self.assertEqual(kotodama.transformVerb("過ごす",{"過去"}), '過ごした')
+        
+        # adjective
+        self.assertEqual(kotodama.transformVerb("楽しい",{"過去"}), '楽しかった')
+
 
 
 
