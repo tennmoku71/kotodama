@@ -8,7 +8,7 @@ def _test_requirements():
  
 setuptools.setup(
     name="kotodama",
-    version="0.0.8",
+    version="0.0.9",
     author="Yoshiki Ohira",
     author_email="ohira.yoshiki@irl.sys.es.osaka-u.ac.jp",
     description="日本語の動詞を活用形に変換する",

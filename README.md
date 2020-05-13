@@ -25,19 +25,19 @@ https://www.kokugobunpou.com
 |  引数 |  単語タイプ | その他の表記　
 | ---- | ---- | ---- |
 |  使役  |  助動詞  | せる・させる
-|  可能  |  助動詞  |　れる・られる/自発/尊敬
-|  受け身  |  助動詞  |　れる・られる/自発/尊敬
-|  自分の希望  |  助動詞  |　たい・たがる/希望
-|  他人の希望  |  助動詞  |　たい・たがる/希望
-|  です・ます  |  助動詞  |　です・ます/丁寧
-|  否定  |  助動詞  |　ない・ぬ/打ち消し
-|  過去  |  助動詞  |　た・だ/完了/存続/確認
-|  推定  |  助動詞  |　らしい
-|  伝聞  |  助動詞  |　そうだ
-|  様態  |  助動詞  |　そうだ
-|  例示  |  助動詞  |　ようだ/たとえ
-|  勧誘  |  助動詞  |  よう・う/推量/意思
-|  て  |  接続助詞  |　で
+|  可能  |  助動詞  | れる・られる/自発/尊敬
+|  受け身  |  助動詞  | れる・られる/自発/尊敬
+|  自分の希望  |  助動詞  | たい・たがる/希望
+|  他人の希望  |  助動詞  | たい・たがる/希望
+|  です・ます  |  助動詞  | です・ます/丁寧
+|  否定  |  助動詞  | ない・ぬ/打ち消し
+|  過去  |  助動詞  | た・だ/完了/存続/確認
+|  推定  |  助動詞  | らしい
+|  伝聞  |  助動詞  | そうだ
+|  様態  |  助動詞  | そうだ
+|  例示  |  助動詞  | ようだ/たとえ
+|  勧誘  |  助動詞  | よう・う/推量/意思
+|  て  |  接続助詞  | で
 
 #### 対応していない助動詞一覧
 |  引数 |  単語タイプ | その他の表記　
@@ -82,6 +82,34 @@ https://github.com/tennmoku71/kotodama/blob/master/kotodama/data/kotodama_dic.cs
  - 悪い例 : 基本表記＝押し入る, 活用する述語=いる 
 - 形容詞 or 動詞 : 現在は動詞のみ対応
 - 活用タイプ：[Juman++](http://nlp.ist.i.kyoto-u.ac.jp/index.php?JUMAN++)の表記に対応しています
+
+## 複合動詞に対応させる
+
+本ライブラリに分かち書きエンジンを読みこませることで複合動詞にも対応させることができます
+
+```
+複合動詞対応前　○見る　×見てみる　×立ち向かう
+複合動詞対応語　○見る　○見てみる　○立ち向かう
+```
+
+```
+# how to activate
+
+# nagisaを使う場合
+import nagisa
+kotodama.setSegmentationEngine(kotodama.SegmentationEngine.NAGISA, nagisa)
+
+# janomeを使う場合
+from janome.tokenizer import Tokenizer
+tokenizer = Tokenizer()
+kotodama.setSegmentationEngine(kotodama.SegmentationEngine.JANOME, tokenizer)
+
+# jumanppを使う場合(jumanでも同様)
+from pyknp import Juman
+juman = Juman()
+kotodama.setSegmentationEngine(kotodama.SegmentationEngine.JUMAN, juman)
+
+```
 
 ## contributeのお願い
 動詞の更新やバグの発見、プログラムの改良などに協力してくれる方を募集しています

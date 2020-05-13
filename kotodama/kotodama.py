@@ -25,6 +25,8 @@ THE SOFTWARE.
 """
 import os
 import warnings
+from enum import Enum
+
 kotodama_dic = {}
 file = open(os.path.dirname(__file__)+"/data/kotodama_dic.csv",encoding="utf-8",mode = "r")
 for ele in file:
@@ -346,28 +348,76 @@ NG_dict = {
     "例示":["伝聞"]
 }
 
+
+class SegmentationEngine(Enum):
+    NAGISA = 1
+    JANOME = 2
+    JUMAN = 3
+
+engine_name = None
+engine = None
+def setSegmentationEngine(ename, e):
+    global engine_name
+    global engine
+    engine_name = ename
+    engine = e
+
+
 def transformVerb(verb,format_set):
+
 
     if type(verb) is not str:
         raise TypeError("transformVerbの第1引数にはstr型を入れてください。引数("+str(type(verb))+")")
 
+
+
     if type(format_set) is list:
         format_set = set(format_set)
+
+
 
     if type(format_set) is not set:    
         raise TypeError("transformVerbの第2引数にはset型を入れてください。引数("+str(type(format_set))+")")        
 
+
+
+    # 辞書に入力文字列が見つからなかったら
+    values = None
     if not verb in kotodama_dic:
+        # 分かち書きをして後方一致にて探してみる
+        words = None
+
+        if engine_name == SegmentationEngine.NAGISA :
+            words = engine.wakati(verb)
+
+        if engine_name == SegmentationEngine.JANOME:
+            words = [ token.surface for token in engine.tokenize(verb)]
+
+        if engine_name == SegmentationEngine.JUMAN:
+            words = [ mrph.midasi for mrph in engine.analysis(verb).mrph_list()]
+
+        if words is not None and words[-1] in kotodama_dic:
+            values = kotodama_dic[words[-1]]
+
+    else:
+        values = kotodama_dic[verb]
+
+    if values == None:
         raise ValueError("辞書に定義されていない単語が入力されました。kotodama_dic.csvに「"+str(verb)+"」を追加してください")
+
+    target_verb = values[0]
+    hinsi = values[1]
+    katuyou1 = values[2]
+
+
+
 
     if not format_set <= set(phrase_order):
         warnings.warn(str(format_set - set(phrase_order))+"は対応していません", UserWarning)
         format_set = format_set & set(phrase_order)
 
-    values = kotodama_dic[verb]
-    target_verb = values[0]
-    hinsi = values[1]
-    katuyou1 = values[2]
+    
+
 
     for key in NG_dict:
         if key in format_set:
@@ -376,6 +426,8 @@ def transformVerb(verb,format_set):
                     #print(key+"と"+ng_tag+"の組み合わせは表現できません。"+ng_tag+"を削除します")
                     return "None"
                     #format_set.remove(ng_tag)
+
+
 
     if "です・ます" in format_set:
         format_set.remove("です・ます")
@@ -398,6 +450,8 @@ def transformVerb(verb,format_set):
             elif phrase_order[max(index_array)] in desu:
                 format_set.add("です")
 
+
+
     if "仮定" in format_set:
         nara = {"受け身","伝聞","様態","例示","勧誘","です・ます","て"} & format_set
         ba = {"過去","伝聞","勧誘","です・ます","て"} & format_set
@@ -406,7 +460,11 @@ def transformVerb(verb,format_set):
         elif len(ba)==0:
             format_set.add("仮定ba")
 
+
+
     format_set = sorted(format_set, key=phrase_order.index)       
+
+
 
     phrase_list = []
     for i in range(len(format_set)):
