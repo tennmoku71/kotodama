@@ -71,6 +71,10 @@ https://github.com/tennmoku71/kotodama/blob/master/kotodama/data/kotodama_dic.cs
 --------------------------------------
 ## ユーザ辞書の追加方法
 
+jumanを使う方法と、手動で追加する方法があります
+
+### 手動
+
 以下のフォーマットに従い、kotodama_dic.csvの末尾に次の一行を追加してください
 
 ```
@@ -82,6 +86,18 @@ https://github.com/tennmoku71/kotodama/blob/master/kotodama/data/kotodama_dic.cs
  - 悪い例 : 基本表記＝押し入る, 活用する述語=いる 
 - 形容詞 or 動詞 : 現在は動詞のみ対応
 - 活用タイプ：[Juman++](http://nlp.ist.i.kyoto-u.ac.jp/index.php?JUMAN++)の表記に対応しています
+
+### Juman
+
+```
+from pyknp import Juman
+# 以下の関数を実行した上で、追加したい動詞や形容詞を入力してください
+kotodama.disableError(Juman())
+
+kotodama.transformedVerb("嫌いだ", {"過去"})
+-> ローカルのkotodama_dic.csvに「嫌いだ」のデータが追加されています
+
+```
 
 ## 複合動詞に対応させる
 
