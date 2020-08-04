@@ -27,14 +27,29 @@ import os
 import warnings
 from enum import Enum
 
+FILE_PATH = os.path.dirname(__file__)+"/data/kotodama_dic.csv"
+ENCODING = "utf-8"
 kotodama_dic = {}
-file = open(os.path.dirname(__file__)+"/data/kotodama_dic.csv",encoding="utf-8",mode = "r")
-for ele in file:
-    ele_list = ele.strip().split(",") 
-    key = ele_list[0]
-    value = ele_list[1:]
-    kotodama_dic[key] = value
-file.close()
+def load():
+    file = open(FILE_PATH,encoding=ENCODING,mode = "r")
+    for ele in file:
+        ele_list = ele.strip().split(",") 
+        key = ele_list[0]
+        value = ele_list[1:]
+        kotodama_dic[key] = value
+    file.close()
+load()
+
+def add_db(mrph):
+    global kotodama_dic
+    # kotodama dicに追加
+    key = mrph.genkei
+    if not key in kotodama_dic:
+        value = [mrph.genkei,mrph.hinsi,mrph.katuyou1]
+        kotodama_dic[key] = value
+        # 辞書ファイルにも追加
+        with open(FILE_PATH,encoding=ENCODING,mode='a') as f:
+            print("\n%s,%s" % (key,",".join(value)), file=f)
 
 class nihongo:
 
@@ -256,22 +271,18 @@ phrases.append(phrase(word="可能",mizen="られ",renyo="られ",syusi="られ�
 phrases.append(phrase(word="可能",mizen="れ",renyo="れ",syusi="れる",rentai="れる",katei="れれ",meirei="れろ",before_word_type="子音動詞",conjugation="未然可能"))
 phrases.append(phrase(word="可能",mizen="",renyo="",syusi="る",rentai="る",katei="れ",meirei="ろ",before_word_type="サ変動詞",conjugation="未然可能"))
 phrases.append(phrase(word="可能",mizen="られ",renyo="られ",syusi="られる",rentai="られる",katei="られれ",meirei="られろ",before_word_type=None,conjugation="未然可能"))
-
 phrases.append(phrase(word="使役",mizen="せ",renyo="せ",syusi="せる",rentai="せる",katei="せれ",meirei="せろ",before_word_type="子音動詞",conjugation="未然使役"))
 phrases.append(phrase(word="使役",mizen="せ",renyo="せ",syusi="せる",rentai="せる",katei="せれ",meirei="せろ",before_word_type="サ変動詞",conjugation="未然使役"))
 phrases.append(phrase(word="使役",mizen="させ",renyo="させ",syusi="させる",rentai="させる",katei="させれ",meirei="させろ",before_word_type=None,conjugation="未然使役"))
-
 phrases.append(phrase(word="受け身",mizen="れ",renyo="れ",syusi="れる",rentai="れる",katei="れれ",meirei="れろ",before_word_type="子音動詞",conjugation="未然使役"))
 phrases.append(phrase(word="受け身",mizen="れ",renyo="れ",syusi="れる",rentai="れる",katei="れれ",meirei="れろ",before_word_type="サ変動詞",conjugation="未然使役"))
 phrases.append(phrase(word="受け身",mizen="られ",renyo="られ",syusi="られる",rentai="られる",katei="られれ",meirei="られろ",before_word_type=None,conjugation="未然使役"))
-
 #動詞の直後しか許されない
 phrases.append(phrase(word="過去",mizen="だろ",renyo="だ",syusi="だ",rentai="だ",katei="だら",meirei="",before_word_type="子音動詞ガ行",conjugation="連用過去"))
 phrases.append(phrase(word="過去",mizen="だろ",renyo="だ",syusi="だ",rentai="だ",katei="だら",meirei="",before_word_type="子音動詞ナ行",conjugation="連用過去"))
 phrases.append(phrase(word="過去",mizen="だろ",renyo="だ",syusi="だ",rentai="だ",katei="だら",meirei="",before_word_type="子音動詞バ行",conjugation="連用過去"))
 phrases.append(phrase(word="過去",mizen="だろ",renyo="だ",syusi="だ",rentai="だ",katei="だら",meirei="",before_word_type="子音動詞マ行",conjugation="連用過去"))
 phrases.append(phrase(word="過去",mizen="たろ",renyo="た",syusi="た",rentai="た",katei="たら",meirei="",before_word_type=None,conjugation="連用過去"))
-
 #命令形だと終止形+"な"
 #"ます"だと、未然形+"ん"
 # 「たい」+「ない」のときだけ、ないを助動詞ではなく、用言として扱う
@@ -279,15 +290,10 @@ phrases.append(phrase(word="否定",mizen="ん",renyo="ん",syusi="ん",rentai="
 phrases.append(phrase(word="否定",mizen="なかろ",renyo="なく",syusi="ない",rentai="ない",katei="なけれ",meirei=None,before_word_type="自分の希望",conjugation="連用希望"))
 phrases.append(phrase(word="否定",mizen="なかろ",renyo="なく",syusi="ない",rentai="ない",katei="なけれ",meirei=None,before_word_type=None,conjugation="未然否定nai"))
 phrases.append(phrase(word="否定",mizen=None,renyo=None,syusi=None,rentai=None,katei=None,meirei="な",before_word_type=None,conjugation="終止"))
-
 phrases.append(phrase(word="伝聞",mizen="",renyo="そうで",syusi="そうだ",rentai="",katei="",meirei="",before_word_type=None,conjugation="終止"))
-
 phrases.append(phrase(word="様態",mizen="そうだろ",renyo="そうで",syusi="そうだ",rentai="そうな",katei="そうなら",meirei="",before_word_type=None,conjugation="連体"))
-
 phrases.append(phrase(word="例示",mizen="ようだろ",renyo="ようで",syusi="ようだ",rentai="ような",katei="ようなら",meirei="",before_word_type=None,conjugation="連体"))
-
 phrases.append(phrase(word="推定",mizen="",renyo="らしく",syusi="らしい",rentai="らしい",katei="らしけれ",meirei="",before_word_type=None,conjugation="終止"))
-
 #子音動詞の場合は未然意思、それ以外は未然否定naiになる
 #子音動詞の場合はyouではなくuになる
 #ますの場合は「かきませんか」になる
@@ -298,18 +304,13 @@ phrases.append(phrase(word="勧誘",mizen="",renyo="",syusi="う",rentai="う",k
 phrases.append(phrase(word="勧誘",mizen="",renyo="",syusi="う",rentai="う",katei="",meirei="",before_word_type="否定・自分の希望・断定・伝聞・様態・例示・です・ます",conjugation="未然意思"))
 phrases.append(phrase(word="勧誘",mizen="",renyo="",syusi="よう",rentai="よう",katei="",meirei="",before_word_type=None,conjugation="未然否定nai"))
 #phrases.append(phrase(word="勧誘",mizen="",renyo="",syusi="んか",rentai="んか",katei="",meirei="",before_word_type=None,conjugation="未然否定nai"))
-
 # #子音動詞の場合は終止、それ以外は未然否定naiになる
 # #動詞の直後しか許されない
 # phrases.append(phrase(word="打ち消し",mizen="",renyo="",syusi="まい",rentai="まい",katei="",meirei="",before_word_type="子音動詞",conjugation="終止"))
 # phrases.append(phrase(word="打ち消し",mizen="",renyo="",syusi="まい",rentai="まい",katei="",meirei="",before_word_type=None,conjugation="未然否定nai"))
-
 phrases.append(phrase(word="断定",mizen="たろ",renyo="で",syusi="だ",rentai="な",katei="なら",meirei="",before_word_type=None,conjugation="終止"))
-
 phrases.append(phrase(word="自分の希望",mizen="たかろ",renyo="たく",syusi="たい",rentai="たい",katei="たけれ",meirei="",before_word_type=None,conjugation="連用希望"))
-
 phrases.append(phrase(word="他人の希望",mizen="たがら",renyo="たがり",syusi="たがる",rentai="たがる",katei="たがれ",meirei="",before_word_type=None,conjugation="連用希望"))
-
 #動詞の直後なら"ます"、そうでなければ"です"　打ち消し、断定
 #伝聞：かくそうです、様態：かくそうです、例示：かくようです、推定：かくらしいです、自分の希望：かきたいです、否定：かかないです
 phrases.append(phrase(word="です",mizen="でしょ",renyo="でし",syusi="です",rentai="です",katei="",meirei="",before_word_type="伝聞・様態・例示・推定・自分の希望・否定・過去",conjugation="終止"))
@@ -317,24 +318,19 @@ phrases.append(phrase(word="です",mizen="でしょ",renyo="でし",syusi="で�
 phrases.append(phrase(word="です",mizen="でしょ",renyo="でし",syusi="です",rentai="です",katei="",meirei="",before_word_type="形容詞",conjugation="終止"))
 # 判定詞なら「だ」を「です」へと活用する
 phrases.append(phrase(word="です",mizen="でしょ",renyo="でし",syusi="です",rentai="です",katei="",meirei="",before_word_type="判定詞",conjugation="終止"))
-
 #なし：かきます、否定：かきません、過去：かきました、可能：かけれます、使役：かかせます、受け身：かかられます、勧誘：かきませんか、他人の希望：かきたがります
 phrases.append(phrase(word="ます",mizen="ませ",renyo="まし",syusi="ます",rentai="ます",katei="ますれ",meirei="ませ",before_word_type=None,conjugation="連用希望"))
-
 #直前の単語が"て"または"で"なら追加しない
 phrases.append(phrase(word="て",mizen="で",renyo="で",syusi="で",rentai="で",katei="で",meirei="",before_word_type="子音動詞ガ行",conjugation="連用過去"))
 phrases.append(phrase(word="て",mizen="で",renyo="で",syusi="で",rentai="で",katei="で",meirei="",before_word_type="子音動詞ナ行",conjugation="連用過去"))
 phrases.append(phrase(word="て",mizen="で",renyo="で",syusi="で",rentai="で",katei="で",meirei="",before_word_type="子音動詞バ行",conjugation="連用過去"))
 phrases.append(phrase(word="て",mizen="で",renyo="で",syusi="で",rentai="で",katei="で",meirei="",before_word_type="子音動詞マ行",conjugation="連用過去"))
 phrases.append(phrase(word="て",mizen="て",renyo="て",syusi="て",rentai="て",katei="て",meirei="て",before_word_type=None,conjugation="連用過去"))
-
 #みなければ、みないなら
 phrases.append(phrase(word="仮定nara",mizen="なら",renyo="なら",syusi="なら",rentai="なら",katei="なら",meirei="なら",before_word_type=None,conjugation="終止"))
 phrases.append(phrase(word="仮定ba",mizen="ば",renyo="ば",syusi="ば",rentai="ば",katei="ば",meirei="ば",before_word_type=None,conjugation="仮定"))
-
 #直前の単語に"テ"を加える
 phrases.append(phrase(word="ください",mizen="ください",renyo="ください",syusi="ください",rentai="ください",katei="ください",meirei="ください",before_word_type=None,conjugation="終止"))
-
 phrase_order = ["使役", "可能", "受け身", "自分の希望", "他人の希望", "ます", "否定", "過去", "推定", "伝聞", "様態", "例示", "勧誘", "です", "て", "仮定nara", "仮定ba"]
 
 NG_dict = {
@@ -347,7 +343,6 @@ NG_dict = {
     "様態":["例示","伝聞"],
     "例示":["伝聞"]
 }
-
 
 class SegmentationEngine(Enum):
     NAGISA = 1
@@ -362,62 +357,52 @@ def setSegmentationEngine(ename, e):
     engine_name = ename
     engine = e
 
+disable_error_engine = None
+def disableError(juman):
+    global disable_error_engine
+    disable_error_engine = juman
 
 def transformVerb(verb,format_set):
-
-
     if type(verb) is not str:
         raise TypeError("transformVerbの第1引数にはstr型を入れてください。引数("+str(type(verb))+")")
-
-
-
     if type(format_set) is list:
         format_set = set(format_set)
-
-
-
     if type(format_set) is not set:    
-        raise TypeError("transformVerbの第2引数にはset型を入れてください。引数("+str(type(format_set))+")")        
-
-
-
+        raise TypeError("transformVerbの第2引数にはset型を入れてください。引数("+str(type(format_set))+")")
     # 辞書に入力文字列が見つからなかったら
     values = None
     if not verb in kotodama_dic:
         # 分かち書きをして後方一致にて探してみる
         words = None
-
         if engine_name == SegmentationEngine.NAGISA :
             words = engine.wakati(verb)
-
         if engine_name == SegmentationEngine.JANOME:
             words = [ token.surface for token in engine.tokenize(verb)]
-
         if engine_name == SegmentationEngine.JUMAN:
             words = [ mrph.midasi for mrph in engine.analysis(verb).mrph_list()]
-
         if words is not None and words[-1] in kotodama_dic:
             values = kotodama_dic[words[-1]]
+        # もしdisableErrorが実行されていたら、valuesの中身を極力Noneにしない
+        if disable_error_engine is not None:
+            juman_result = disable_error_engine.analysis(verb)
+            for mrph in juman_result.mrph_list():
+                if mrph.hinsi in ["動詞","形容詞"]:
+                    add_db(mrph)
 
-    else:
+    if values == None:
         values = kotodama_dic[verb]
 
     if values == None:
         raise ValueError("辞書に定義されていない単語が入力されました。kotodama_dic.csvに「"+str(verb)+"」を追加してください")
 
+    print("values %s" % str(values))
     target_verb = values[0]
     hinsi = values[1]
     katuyou1 = values[2]
 
-
-
-
     if not format_set <= set(phrase_order):
         warnings.warn(str(format_set - set(phrase_order))+"は対応していません", UserWarning)
         format_set = format_set & set(phrase_order)
-
-    
-
 
     for key in NG_dict:
         if key in format_set:
@@ -426,8 +411,6 @@ def transformVerb(verb,format_set):
                     #print(key+"と"+ng_tag+"の組み合わせは表現できません。"+ng_tag+"を削除します")
                     return "None"
                     #format_set.remove(ng_tag)
-
-
 
     if "です・ます" in format_set:
         format_set.remove("です・ます")
@@ -489,7 +472,9 @@ def transformVerb(verb,format_set):
                     phrase_list.append(phrase)
                     break
 
+    print("verb %s target_verb %s" % (verb, target_verb))
     header = verb.replace(target_verb,"")
+    print("header %s" % header)
     if len(phrase_list)!=0:
         transformed = header + transformConjugationForm(target_verb,katuyou1,phrase_list[0].conjugation)
     else:
@@ -542,6 +527,8 @@ def transformVerb(verb,format_set):
         # 「らよう」も発音しにくいので「ろう」に変わる
         if "らよう" in transformed :
             transformed = transformed.replace("らよう","ろう")
+
+        print(transformed)
 
     return transformed
 

@@ -2,9 +2,8 @@
 # -*- coding: utf-8 -*-
 
 import unittest
-
 from kotodama import kotodama
-
+from pyknp import Juman
 
 class TestKotodama(unittest.TestCase):
 
@@ -27,7 +26,7 @@ class TestKotodama(unittest.TestCase):
 
     def test_argument(self):
         # first argument
-        with self.assertRaises(ValueError):
+        with self.assertRaises(KeyError):
             message = kotodama.transformVerb("ほげほげ",{"過去"})
 
         # second argument
@@ -43,6 +42,17 @@ class TestKotodama(unittest.TestCase):
         
         # adjective
         self.assertEqual(kotodama.transformVerb("楽しい",{"過去"}), '楽しかった')
+
+    def test_unknown_word(self):
+
+        # disable_error実行前はエラーが発生する
+        with self.assertRaises(KeyError):
+            message = kotodama.transformVerb("嫌いだ",{"過去"})
+
+        kotodama.disableError(Juman())
+
+        # print(kotodama.transformVerb("嫌いだ",set()))
+        self.assertEqual(kotodama.transformVerb("嫌いだ",set("過去")), '嫌いだ')
 
 
 
